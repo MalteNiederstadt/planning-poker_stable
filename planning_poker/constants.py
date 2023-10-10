@@ -23,9 +23,9 @@ HOUR_CHOICES = [
 
 
 #: The value which represents the story's scope being too large.
-TOO_LARGE = 'Too large (89)'
+TOO_LARGE = '89'
 #: The value which represents a voter not being able to estimate a story's scope.
-NO_IDEA = 'No idea (?)'
+NO_IDEA = '99'
 
 #: The options which voters can choose, but are not valid story point options.
 NON_POINT_OPTIONS = [
