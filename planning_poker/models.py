@@ -7,6 +7,8 @@ from django.utils.translation import gettext_lazy as _
 
 from .constants import ALL_VOTING_OPTIONS, FIBONACCI_CHOICES , HOUR_CHOICES
 
+from django.contrib.auth.models import User  # Import the User model
+
 try:
     # The OrderedDict was added to the typing module in Python version 3.7.
     # Fall back to the default Dict type in order to provide backwards compatibility for Python 3.6.
@@ -21,6 +23,15 @@ class PokerSession(models.Model):
     #: The poker session's name. Used for displaying it to the user.
     name = models.CharField(max_length=200, verbose_name=_('Name'))
     #: The story which is currently active in this poker session.
+
+    created_by = models.ForeignKey(
+        User,  # Use the User model as the related model
+        on_delete=models.SET_NULL,
+        verbose_name=_('Created By'),
+        related_name='created_poker_sessions',
+        null=True
+    )
+    
     active_story = models.OneToOneField(
         'Story',
         on_delete=models.SET_NULL,
