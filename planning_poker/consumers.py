@@ -148,11 +148,13 @@ class PokerConsumer(JsonWebsocketConsumer):
         if active_story is None:
             logger.warning('%(user)s tried to vote with no active story.', {'user': user})
             return
-        logger.info(user)
-        logger.info(self.poker_session.created_by)
-        if user == self.poker_session.created_by:
-            active_story.votes.update_or_create(user=user, defaults={'choice': choice})
-            self.send_active_story_information()
+        active_story.votes.update_or_create(user=user, defaults={'choice': choice})
+        self.send_active_story_information()
+        #logger.info(user)
+        #logger.info(self.poker_session.created_by)
+        # if user == self.poker_session.created_by:
+        #     active_story.votes.update_or_create(user=user, defaults={'choice': choice})
+        #     self.send_active_story_information()
 
     def send_active_story_information(self, send_to_group: bool = True):
         """Dispatch an Event containing the story's information.
