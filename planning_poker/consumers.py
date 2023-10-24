@@ -150,8 +150,8 @@ class PokerConsumer(JsonWebsocketConsumer):
             return
         active_story.votes.update_or_create(user=user, defaults={'choice': choice})
         self.send_active_story_information()
-        #logger.info(user)
-        #logger.info(self.poker_session.created_by)
+        # logger.info(user)
+        # logger.info(self.poker_session.created_by)
         # if user == self.poker_session.created_by:
         #     active_story.votes.update_or_create(user=user, defaults={'choice': choice})
         #     self.send_active_story_information()
