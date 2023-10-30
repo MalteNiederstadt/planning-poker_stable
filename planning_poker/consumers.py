@@ -11,7 +11,8 @@ from django.utils.functional import cached_property
 from .models import PokerSession, Story
 
 #: Moderators will have this permission.
-MODERATE_PERMISSION = '.'.join((Story._meta.app_label, 'moderate'))
+#MODERATE_PERMISSION = '.'.join((Story._meta.app_label, 'moderate'))
+MODERATE_PERMISSION = '.'.join((PokerSession._meta.app_label,'session_moderator'))
 #: Voters will have this permission.
 VOTE_PERMISSION = '.'.join((Story._meta.app_label, 'vote'))
 

@@ -4,10 +4,12 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
+#DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
 
-SECRET_KEY = '96a40240ed25433cb8ff8ce819bf710b'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'planning_poker/templates'),
@@ -18,14 +20,13 @@ ASGI_APPLICATION = 'example.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'planning_poker.db',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER':  os.environ.get('DATABASE_USERNAME'),
+        'PASSWORD':  os.environ.get('DATABASE_PASSWORD'),
+        'HOST':  os.environ.get('DATABASE_HOST'),
+        'PORT':  os.environ.get('DATABASE_PORT'),
     }
 }
-
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -91,10 +92,15 @@ STATICFILES_FINDERS = (
 # Please note, that the in-memory layer should not be used in production.
 # Instead install and use the channels-redis layers backend.
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer'
-    }
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("red-ckiig7ce1qns73fk1vcg", 6379)],
+        },
+    },
 }
-
 LOGIN_URL = 'admin:login'
 LOGOUT_URL = 'admin:logout'
+
+FIELD_ENCRYPTION_KEYS = [SECRET_KEY.encode().hex()[:64]]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

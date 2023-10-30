@@ -24,13 +24,7 @@ class PokerSession(models.Model):
     name = models.CharField(max_length=200, verbose_name=_('Name'))
     #: The story which is currently active in this poker session.
 
-    # funke_moderator = models.ForeignKey(
-    #     User,  # Use the User model as the related model
-    #     on_delete=models.SET_NULL,
-    #     verbose_name=_('Created By'),
-    #     related_name='created_poker_sessions',
-    #     null=True
-    # )
+
 
     active_story = models.OneToOneField(
         'Story',
@@ -44,6 +38,9 @@ class PokerSession(models.Model):
         ordering = ['-poker_date']
         verbose_name = _('Poker Session')
         verbose_name_plural = _('Poker Sessions')
+        permissions = [
+        ("session_moderator", "can moderate this session")
+        ]
 
     def __str__(self) -> str:
         return self.name
